@@ -1,0 +1,13 @@
+#gameHistory {
+	background-color: gray;
+	list-style: none;
+	padding-left: 0;
+}
+
+.command:before {
+	content: ">>> ";
+}
+
+footer {
+	font-size: 75%;
+}
