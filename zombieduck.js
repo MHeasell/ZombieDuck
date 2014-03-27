@@ -148,9 +148,10 @@ function GameCtrl ($scope) {
 	];
 
 	$scope.enterCmd = function () {
-		$scope.history.push({type: "command", text: $scope.cmdText});
+	    var cmd = $scope.cmdText;
+	    $scope.cmdText = "";
+		$scope.history.push({type: "command", text: cmd});
 
-		var cmd = $scope.cmdText;
 		var response = model.doAction(cmd);
 
 		$scope.history.push({type: "response", text: response});
