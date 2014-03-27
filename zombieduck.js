@@ -131,7 +131,16 @@ World.prototype.doAction = function (action) {
 
     if (tokens[0] === "look") {
         if (tokens.length > 1) {
-            return this.describe(tokens[1]);
+            if (tokens[1] === "at") {
+                if (tokens.length > 2) {
+                    return this.describe(tokens.slice(2).join(" "));
+                }
+                else {
+                    return "Look at what?";
+                }
+            }
+
+            return this.describe(tokens.slice(1).join(" "));
         }
         else {
             return this.describe(null);
