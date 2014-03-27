@@ -26,20 +26,26 @@ body {
 
 #commandForm {
     border-top: 1px solid #00FF00;
-    display: flex;
+    overflow: auto;
+}
+
+#inputWrapper {
+    overflow: hidden;
+    padding-left: 10px;
 }
 
 #commandInput {
-    margin-left: 10px;
     color: inherit;
     background-color: inherit;
     border: 0;
-    flex-grow: 1;
+    width: 100%;
 }
 
 #commandEnterButton {
     background-color: green;
     border: 0;
+    width: 48px;
+    float: right;
 }
 
 footer {

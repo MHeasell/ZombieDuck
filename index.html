@@ -19,8 +19,10 @@
             </ul>
 
             <form id="commandForm" ng-submit="enterCmd()">
-                <input type="text" id="commandInput" ng-model="cmdText" placeholder="Enter command here..." />
                 <input type="submit" id="commandEnterButton" value="Enter" />
+                <div id="inputWrapper">
+                    <input type="text" id="commandInput" ng-model="cmdText" placeholder="Enter command here..." />
+                </div>
             </form>
         </div>
 
