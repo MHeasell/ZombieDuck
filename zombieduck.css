@@ -27,7 +27,6 @@ body {
 #commandForm {
     border-top: 1px solid #00FF00;
     display: flex;
-    /*background-color: grey;*/
 }
 
 #commandInput {
