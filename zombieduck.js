@@ -129,6 +129,10 @@ World.prototype.doAction = function (action) {
         return elem.length > 0;
     });
 
+    if (tokens.length == 0) {
+        return null;
+    }
+
     if (tokens[0] === "look") {
         if (tokens.length > 1) {
             if (tokens[1] === "at") {
@@ -167,6 +171,8 @@ function GameCtrl ($scope) {
 
         var response = model.doAction(cmd);
 
-        $scope.history.push({type: "response", text: response});
+        if (response !== null) {
+            $scope.history.push({type: "response", text: response});
+        }
     };
 }
