@@ -119,7 +119,7 @@ World.prototype.describe = function (target) {
         case "world":
             return this.describeWorld();
         default:
-            return "I don't know about " + target;
+            return "Don't know about " + target;
     }
 };
 
