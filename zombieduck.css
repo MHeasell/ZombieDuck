@@ -1,11 +1,46 @@
+body {
+	color: #00FF00;
+	background-color: black;
+	font-family: monospace;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 640px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+
+#gameArea {
+	border: 1px solid #00FF00;
+}
+
 #gameHistory {
-	background-color: gray;
 	list-style: none;
-	padding-left: 0;
+	padding: 10px;
+	margin: 0;
 }
 
 .command:before {
 	content: ">>> ";
+}
+
+#commandForm {
+	border-top: 1px solid #00FF00;
+	display: flex;
+	/*background-color: grey;*/
+}
+
+#commandInput {
+	margin-left: 10px;
+	color: inherit;
+	background-color: inherit;
+	border: 0;
+	flex-grow: 1;
+}
+
+#commandEnterButton {
+	background-color: green;
+	border: 0;
 }
 
 footer {
