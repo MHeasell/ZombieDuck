@@ -125,6 +125,10 @@ World.prototype.describe = function (target) {
 
 World.prototype.doAction = function (action) {
     var tokens = action.split(" ");
+    tokens = tokens.filter(function(elem) {
+        return elem.length > 0;
+    });
+
     if (tokens[0] === "look") {
         if (tokens.length > 1) {
             return this.describe(tokens[1]);
