@@ -80,7 +80,7 @@ World.prototype.describeWorld = function () {
     var mainStr = [
     "You are standing in the middle of an expansive barren wasteland.",
     "Empty space stretches out around you.",
-    "In the distance, tough, rugged looking walls the circle the area, blocking you in.",
+    "In the distance, tough, rugged looking walls circle the area, blocking you in.",
     this.describeDuckDistance().capitalize() + " to the " + this.getDuckDirection() + " you see a duck."
     ].join(" ");
     return mainStr;
