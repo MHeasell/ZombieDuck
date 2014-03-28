@@ -147,6 +147,10 @@ World.prototype.describe = function (target) {
     }
 };
 
+World.prototype.doDescribeAction = function (target) {
+    this.pushMessage(this.describe(target));
+};
+
 World.prototype.move = function (direction) {
     switch (direction) {
         case "north":
@@ -164,6 +168,11 @@ World.prototype.move = function (direction) {
         default:
             throw "Don't know direction: " + direction;
     }
+};
+
+World.prototype.doMoveAction = function (direction) {
+    this.move(direction);
+    this.pushMessage("You move " + dir + ".");
 };
 
 function convertToDirection(input) {
@@ -205,7 +214,7 @@ World.prototype.processLookAction = function (args) {
     if (args.length > 0) {
         if (args[0] === "at") {
             if (args.length > 1) {
-                this.pushMessage(this.describe(args.slice(1).join(" ")));
+                this.doDescribeAction(args.slice(1).join(" "));
                 return false;
             }
             else {
@@ -214,11 +223,11 @@ World.prototype.processLookAction = function (args) {
             }
         }
 
-        this.pushMessage(this.describe(args.join(" ")));
+        this.doDescribeAction(args.join(" "));
         return false;
     }
     else {
-        this.pushMessage(this.describe(null));
+        this.doDescribeAction(null);
         return false;
     }
 };
@@ -231,8 +240,7 @@ World.prototype.processMoveAction = function (args) {
 
     var dir = convertToDirection(args[0]);
     if (dir) {
-        this.move(dir);
-        this.pushMessage("You move " + dir + ".");
+        this.doMoveAction(dir);
         return true;
     }
 
@@ -259,8 +267,7 @@ World.prototype.doAction = function (action) {
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
-                this.move(dir);
-                this.pushMessage("You move " + dir + ".");
+                this.doMoveAction(dir);
                 return true;
             }
 
