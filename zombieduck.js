@@ -258,6 +258,7 @@ World.prototype.doAction = function (action) {
 
     switch (tokens[0]) {
         case "look":
+        case "examine":
             return this.processLookAction(tokens.slice(1));
         case "go":
         case "move":
