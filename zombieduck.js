@@ -38,12 +38,12 @@ World.prototype.getDuckDirection = function() {
     var duckAngle = duckOffset.angle();
     duckAngle = mod(duckAngle, Math.PI);
 
-    duckAngle -= Math.PI / 4;
+    duckAngle += Math.PI / 4;
 
     var dirs = ["east", "north", "west", "south"];
 
     for (var i = 0; i < 4; ++i) {
-        if (duckAngle <= (i + 1) * (Math.PI/4)) {
+        if (duckAngle <= (i + 1) * (Math.PI/2)) {
             return dirs[i];
         }
     }
