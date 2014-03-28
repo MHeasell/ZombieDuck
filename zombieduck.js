@@ -104,6 +104,14 @@ World.prototype.describeDuck = function () {
             "From this distance you can't tell more, but it is definitely no ordinary duck."
         ].join(" ");
     }
+    if (dist > 5) {
+        return [
+            "The duck looks to be quite ill.",
+            "it has an off-color look and is missing pieces of itself.",
+            "You feel a sense of impending dread",
+            "-- it would definitely be a bad thing if it got any closer."
+        ].join(" ");
+    }
     else {
         return [
             "The vile, putrid abomination is almost on top of you.",
