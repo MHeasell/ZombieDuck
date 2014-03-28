@@ -28,6 +28,21 @@ Vector.prototype.length = function () {
     return Math.sqrt((this.x * this.x) + (this.y * this.y));
 };
 
+function direction(angle) {
+    angle = mod(angle, Math.PI);
+    angle += Math.PI / 8;
+
+    var dirs = ["east", "north-east", "north", "north-west", "west", "south-west", "south", "south-east"];
+
+    for (var i = 0; i < 8; ++i) {
+        if (angle <= (i + 1) * (Math.PI/4)) {
+            return dirs[i];
+        }
+    }
+
+    throw "bad angle, what";
+}
+
 function World() {
     this.playerPos = new Vector(5, 5);
     this.duckPos = new Vector(10, 10);
@@ -37,19 +52,8 @@ function World() {
 World.prototype.getDuckDirection = function() {
     var duckOffset = vecSub(this.duckPos, this.playerPos);
     var duckAngle = duckOffset.angle();
-    duckAngle = mod(duckAngle, Math.PI);
 
-    duckAngle += Math.PI / 8;
-
-    var dirs = ["east", "north-east", "north", "north-west", "west", "south-west", "south", "south-east"];
-
-    for (var i = 0; i < 8; ++i) {
-        if (duckAngle <= (i + 1) * (Math.PI/4)) {
-            return dirs[i];
-        }
-    }
-
-    throw "bad angle, what";
+    return direction(duckAngle);
 };
 
 World.prototype.getDuckDistance = function() {
