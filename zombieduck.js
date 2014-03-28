@@ -248,6 +248,12 @@ World.prototype.doAction = function (action) {
     }
 };
 
+World.prototype.duckStatus = function() {
+    var distance = this.describeDuckDistance();
+    var dir = this.getDuckDirection();
+    return "The duck is now " + distance + " to the " + dir + ".";
+};
+
 function GameCtrl ($scope) {
 
     var model = new World();
@@ -265,6 +271,9 @@ function GameCtrl ($scope) {
 
         if (response !== null) {
             $scope.history.push({type: "response", text: response});
+
+            var status = model.duckStatus();
+            $scope.history.push({type: "response", text: status});
         }
     };
 }
