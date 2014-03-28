@@ -201,6 +201,44 @@ World.prototype.takeMessage = function () {
     return this.messages.shift();
 };
 
+World.prototype.processLookAction = function (args) {
+    if (args.length > 0) {
+        if (args[0] === "at") {
+            if (args.length > 1) {
+                this.pushMessage(this.describe(args.slice(1).join(" ")));
+                return false;
+            }
+            else {
+                this.pushMessage("Look at what?");
+                return false;
+            }
+        }
+
+        this.pushMessage(this.describe(args.join(" ")));
+        return false;
+    }
+    else {
+        this.pushMessage(this.describe(null));
+        return false;
+    }
+};
+
+World.prototype.processMoveAction = function (args) {
+    if (args.length < 1) {
+        this.pushMessage("Move where?");
+        return false;
+    }
+
+    var dir = convertToDirection(args[0]);
+    if (dir) {
+        this.move(dir);
+        this.pushMessage("You move " + dir + ".");
+        return true;
+    }
+
+    this.pushMessage("Don't know direction: " + args[0]);
+    return false;
+};
 
 World.prototype.doAction = function (action) {
     var tokens = action.split(" ");
@@ -214,42 +252,10 @@ World.prototype.doAction = function (action) {
 
     switch (tokens[0]) {
         case "look":
-            if (tokens.length > 1) {
-                if (tokens[1] === "at") {
-                    if (tokens.length > 2) {
-                        this.pushMessage(this.describe(tokens.slice(2).join(" ")));
-                        return false;
-                    }
-                    else {
-                        this.pushMessage("Look at what?");
-                        return false;
-                    }
-                }
-
-                this.pushMessage(this.describe(tokens.slice(1).join(" ")));
-                return false;
-            }
-            else {
-                this.pushMessage(this.describe(null));
-                return false;
-            }
+            return this.processLookAction(tokens.slice(1));
         case "go":
         case "move":
-            if (tokens.length < 2) {
-                this.pushMessage("Move where?");
-                return false;
-            }
-
-            var dir = convertToDirection(tokens[1]);
-            if (dir) {
-                this.move(dir);
-                this.pushMessage("You move " + dir + ".");
-                return true;
-            }
-
-            this.pushMessage("Don't know direction: " + tokens[1]);
-            return false;
-
+            return this.processMoveAction(tokens.slice(1));
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
