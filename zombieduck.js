@@ -31,6 +31,7 @@ Vector.prototype.length = function () {
 function World() {
     this.playerPos = new Vector(5, 5);
     this.duckPos = new Vector(10, 10);
+    this.messages = [];
 }
 
 World.prototype.getDuckDirection = function() {
@@ -192,6 +193,15 @@ function convertToDirection(input) {
     }
 }
 
+World.prototype.pushMessage = function (msg) {
+    this.messages.push(msg);
+};
+
+World.prototype.takeMessage = function () {
+    return this.messages.shift();
+};
+
+
 World.prototype.doAction = function (action) {
     var tokens = action.split(" ");
     tokens = tokens.filter(function(elem) {
@@ -199,7 +209,7 @@ World.prototype.doAction = function (action) {
     });
 
     if (tokens.length == 0) {
-        return null;
+        return false;
     }
 
     switch (tokens[0]) {
@@ -207,40 +217,49 @@ World.prototype.doAction = function (action) {
             if (tokens.length > 1) {
                 if (tokens[1] === "at") {
                     if (tokens.length > 2) {
-                        return this.describe(tokens.slice(2).join(" "));
+                        this.pushMessage(this.describe(tokens.slice(2).join(" ")));
+                        return false;
                     }
                     else {
-                        return "Look at what?";
+                        this.pushMessage("Look at what?");
+                        return false;
                     }
                 }
 
-                return this.describe(tokens.slice(1).join(" "));
+                this.pushMessage(this.describe(tokens.slice(1).join(" ")));
+                return false;
             }
             else {
-                return this.describe(null);
+                this.pushMessage(this.describe(null));
+                return false;
             }
         case "go":
         case "move":
             if (tokens.length < 2) {
-                return "Move where?";
+                this.pushMessage("Move where?");
+                return false;
             }
 
             var dir = convertToDirection(tokens[1]);
             if (dir) {
                 this.move(dir);
-                return "You move " + dir + ".";
+                this.pushMessage("You move " + dir + ".");
+                return true;
             }
 
-            return "Don't know direction: " + tokens[1];
+            this.pushMessage("Don't know direction: " + tokens[1]);
+            return false;
 
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
                 this.move(dir);
-                return "You move " + dir + ".";
+                this.pushMessage("You move " + dir + ".");
+                return true;
             }
 
-            return "Don't know how to do that";
+            this.pushMessage("Don't know how to do that");
+            return false;
     }
 };
 
@@ -263,11 +282,14 @@ function GameCtrl ($scope) {
         $scope.cmdText = "";
         $scope.history.push({type: "command", text: cmd});
 
-        var response = model.doAction(cmd);
+        var worldChanged = model.doAction(cmd);
 
-        if (response !== null) {
-            $scope.history.push({type: "response", text: response});
+        var item;
+        while ((item = model.takeMessage()) !== undefined) {
+            $scope.history.push({type: "response", text: item});
+        }
 
+        if (worldChanged) {
             var status = model.duckStatus();
             $scope.history.push({type: "response", text: status});
         }
