@@ -148,19 +148,15 @@ World.prototype.describe = function (target) {
 
 World.prototype.move = function (direction) {
     switch (direction) {
-        case "up":
         case "north":
             this.playerPos.y += 1;
             break;
-        case "right":
         case "east":
             this.playerPos.x += 1;
             break;
-        case "down":
         case "south":
             this.playerPos.y -= 1;
             break;
-        case "left":
         case "west":
             this.playerPos.x -= 1;
             break;
