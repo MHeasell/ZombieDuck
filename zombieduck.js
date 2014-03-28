@@ -172,7 +172,7 @@ World.prototype.move = function (direction) {
 
 World.prototype.doMoveAction = function (direction) {
     this.move(direction);
-    this.pushMessage("You move " + dir + ".");
+    this.pushMessage("You move " + direction + ".");
 };
 
 function convertToDirection(input) {
