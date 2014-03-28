@@ -262,6 +262,8 @@ World.prototype.doAction = function (action) {
             return this.processLookAction(tokens.slice(1));
         case "go":
         case "move":
+        case "walk":
+        case "run":
             return this.processMoveAction(tokens.slice(1));
         default:
             var dir = convertToDirection(tokens[0]);
