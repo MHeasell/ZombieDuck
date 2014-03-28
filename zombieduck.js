@@ -123,6 +123,56 @@ World.prototype.describe = function (target) {
     }
 };
 
+World.prototype.move = function (direction) {
+    switch (direction) {
+        case "up":
+        case "north":
+            this.playerPos.y += 1;
+            break;
+        case "right":
+        case "east":
+            this.playerPos.x += 1;
+            break;
+        case "down":
+        case "south":
+            this.playerPos.y -= 1;
+            break;
+        case "left":
+        case "west":
+            this.playerPos.x -= 1;
+            break;
+        default:
+            throw "Don't know direction: " + direction;
+    }
+};
+
+function convertToDirection(input) {
+    switch (input) {
+        case "up":
+        case "u":
+        case "north":
+        case "n":
+            return "north";
+        case "east":
+        case "e":
+        case "right":
+        case "r":
+            return "east";
+        case "south":
+        case "s":
+        case "down":
+        case "d":
+            return "south";
+        case "west":
+        case "w":
+        case "left":
+        case "l":
+            return "west";
+        default:
+            return null;
+    }
+}
+
 World.prototype.doAction = function (action) {
     var tokens = action.split(" ");
     tokens = tokens.filter(function(elem) {
@@ -133,26 +183,45 @@ World.prototype.doAction = function (action) {
         return null;
     }
 
-    if (tokens[0] === "look") {
-        if (tokens.length > 1) {
-            if (tokens[1] === "at") {
-                if (tokens.length > 2) {
-                    return this.describe(tokens.slice(2).join(" "));
+    switch (tokens[0]) {
+        case "look":
+            if (tokens.length > 1) {
+                if (tokens[1] === "at") {
+                    if (tokens.length > 2) {
+                        return this.describe(tokens.slice(2).join(" "));
+                    }
+                    else {
+                        return "Look at what?";
+                    }
                 }
-                else {
-                    return "Look at what?";
-                }
+
+                return this.describe(tokens.slice(1).join(" "));
+            }
+            else {
+                return this.describe(null);
+            }
+        case "go":
+        case "move":
+            if (tokens.length < 2) {
+                return "Move where?";
             }
 
-            return this.describe(tokens.slice(1).join(" "));
-        }
-        else {
-            return this.describe(null);
-        }
+            var dir = convertToDirection(tokens[1]);
+            if (dir) {
+                this.move(dir);
+                return "You move " + dir + ".";
+            }
 
-    }
-    else {
-        return "Don't know how to do that";
+            return "Don't know direction: " + tokens[1];
+
+        default:
+            var dir = convertToDirection(tokens[0]);
+            if (dir) {
+                this.move(dir);
+                return "You move " + dir + ".";
+            }
+
+            return "Don't know how to do that";
     }
 };
 
