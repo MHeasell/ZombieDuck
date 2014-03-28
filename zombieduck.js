@@ -211,25 +211,23 @@ World.prototype.takeMessage = function () {
 };
 
 World.prototype.processLookAction = function (args) {
-    if (args.length > 0) {
-        if (args[0] === "at") {
-            if (args.length > 1) {
-                this.doDescribeAction(args.slice(1).join(" "));
-                return false;
-            }
-            else {
-                this.pushMessage("Look at what?");
-                return false;
-            }
-        }
-
-        this.doDescribeAction(args.join(" "));
-        return false;
-    }
-    else {
+    if (args.length == 0) {
         this.doDescribeAction(null);
         return false;
     }
+
+    if (args[0] === "at") {
+        if (args.length == 1) {
+            this.pushMessage("Look at what?");
+            return false;
+        }
+
+        this.doDescribeAction(args.slice(1).join(" "));
+        return false;
+    }
+
+    this.doDescribeAction(args.join(" "));
+    return false;
 };
 
 World.prototype.processMoveAction = function (args) {
