@@ -92,13 +92,28 @@ World.prototype.describeDuck = function () {
         return "You can't quite make it out from here. It seems to be duck shaped, in any case.";
     }
     if (dist > 20) {
-        return "It's a duck. There is something funny about the way it walks, though.";
+        return [
+            "It's quite far away, but it's clearly a duck of some description.",
+            "There is something funny about the way it walks, though."
+        ].join(" ");
     }
     if (dist > 10) {
-        return "The duck is staring intently at you.";
+        return [
+            "You see a ragged looking duck.",
+            "It has definitely seen better days, and bits of it seem to be... missing.",
+            "From this distance you can't tell more, but it is definitely no ordinary duck."
+        ].join(" ");
     }
     else {
-        return "OH GOD NO";
+        return [
+            "The vile, putrid abomination is almost on top of you.",
+            "Chunks of flesh hang ragged from the duck's rotten bones,",
+            "and its only remaining eye dangles limply from its socket.",
+            "Spats of blood drip from its trembling feathers,",
+            "while saliva drools from its half-open bill.",
+            "This duck -- this impossible creature -- is certainly not one of the living.",
+            "It is, in fact, a zombie duck."
+        ].join(" ");
     }
 
 };
