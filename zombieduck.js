@@ -59,7 +59,7 @@ function direction(angle) {
         }
     }
 
-    throw "bad angle, what";
+    throw "bad angle: " + angle;
 }
 
 function World() {
