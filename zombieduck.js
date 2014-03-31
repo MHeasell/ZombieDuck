@@ -62,6 +62,21 @@ function direction(angle) {
     throw "bad angle: " + angle;
 }
 
+function direction4(angle) {
+    angle += Math.PI / 4;
+    angle = mod(angle, Math.PI * 2);
+
+    var dirs = ["east", "north", "west", "south"];
+
+    for (var i = 0; i < 4; ++i) {
+        if (angle <= (i + 1) * (Math.PI/2)) {
+            return dirs[i];
+        }
+    }
+
+    throw "bad angle: " + angle;
+}
+
 function World() {
     this.playerPos = new Vector(5, 5);
     this.duckPos = new Vector(10, 10);
