@@ -28,6 +28,25 @@ Vector.prototype.length = function () {
     return Math.sqrt((this.x * this.x) + (this.y * this.y));
 };
 
+Vector.prototype.offsetDirection = function (direction) {
+    switch (direction) {
+        case "north":
+            this.y += 1;
+            break;
+        case "east":
+            this.x += 1;
+            break;
+        case "south":
+            this.y -= 1;
+            break;
+        case "west":
+            this.x -= 1;
+            break;
+        default:
+            throw "Don't know direction: " + direction;
+    }
+};
+
 function direction(angle) {
     angle = mod(angle, Math.PI);
     angle += Math.PI / 8;
@@ -156,22 +175,7 @@ World.prototype.doDescribeAction = function (target) {
 };
 
 World.prototype.move = function (direction) {
-    switch (direction) {
-        case "north":
-            this.playerPos.y += 1;
-            break;
-        case "east":
-            this.playerPos.x += 1;
-            break;
-        case "south":
-            this.playerPos.y -= 1;
-            break;
-        case "west":
-            this.playerPos.x -= 1;
-            break;
-        default:
-            throw "Don't know direction: " + direction;
-    }
+    this.playerPos.offsetDirection(direction);
 };
 
 World.prototype.doMoveAction = function (direction) {
