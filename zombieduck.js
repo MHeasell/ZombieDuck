@@ -277,6 +277,12 @@ World.prototype.doAction = function (action) {
         case "walk":
         case "run":
             return this.processMoveAction(tokens.slice(1));
+        case "w":
+        case "wait":
+        case "idle":
+        case "stop":
+            this.pushMessage("You wait for a while.");
+            return true;
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
