@@ -197,8 +197,25 @@ World.prototype.move = function (direction) {
     this.playerPos.offsetDirection(direction);
 };
 
-World.prototype.processDuckTurn = function () {
+World.prototype.moveDuck = function (direction) {
+    this.duckPos.offsetDirection(direction);
+};
+
+World.prototype.quack = function () {
     this.pushMessage("Quack.");
+};
+
+World.prototype.processDuckTurn = function () {
+    if (Math.random() <= 0.2) {
+        this.quack();
+    }
+
+    // waddle towards the player
+    var playerVec = this.duckPos.vectorTo(this.playerPos);
+    var playerDir = direction4(playerVec.angle());
+
+    this.moveDuck(playerDir);
+    this.pushMessage("The duck waddles in your direction.");
 };
 
 World.prototype.doMoveAction = function (direction) {
