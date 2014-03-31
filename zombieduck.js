@@ -178,6 +178,10 @@ World.prototype.move = function (direction) {
     this.playerPos.offsetDirection(direction);
 };
 
+World.prototype.processDuckTurn = function () {
+    this.pushMessage("Quack.");
+};
+
 World.prototype.doMoveAction = function (direction) {
     this.move(direction);
     this.pushMessage("You move " + direction + ".");
@@ -299,6 +303,13 @@ function GameCtrl ($scope) {
         {type: "response", text: model.describe()}
     ];
 
+    function pumpMessages() {
+        var item;
+        while ((item = model.takeMessage()) !== undefined) {
+            $scope.history.push({type: "response", text: item});
+        }
+    };
+
     $scope.enterCmd = function () {
         var cmd = $scope.cmdText;
         $scope.cmdText = "";
@@ -306,14 +317,14 @@ function GameCtrl ($scope) {
 
         var worldChanged = model.doAction(cmd);
 
-        var item;
-        while ((item = model.takeMessage()) !== undefined) {
-            $scope.history.push({type: "response", text: item});
-        }
-
         if (worldChanged) {
+            model.processDuckTurn();
+            pumpMessages();
+
             var status = model.duckStatus();
             $scope.history.push({type: "response", text: status});
         }
+
+        pumpMessages();
     };
 }
