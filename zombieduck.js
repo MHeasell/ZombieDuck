@@ -48,8 +48,8 @@ Vector.prototype.offsetDirection = function (direction) {
 };
 
 function direction(angle) {
-    angle = mod(angle, Math.PI);
     angle += Math.PI / 8;
+    angle = mod(angle, Math.PI * 2);
 
     var dirs = ["east", "north-east", "north", "north-west", "west", "south-west", "south", "south-east"];
 
