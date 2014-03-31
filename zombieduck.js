@@ -28,6 +28,10 @@ Vector.prototype.length = function () {
     return Math.sqrt((this.x * this.x) + (this.y * this.y));
 };
 
+Vector.prototype.vectorTo = function (other) {
+    return vecSub(other, this);
+};
+
 Vector.prototype.offsetDirection = function (direction) {
     switch (direction) {
         case "north":
