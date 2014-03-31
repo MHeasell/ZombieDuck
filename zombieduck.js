@@ -205,15 +205,26 @@ World.prototype.quack = function () {
     this.pushMessage("Quack.");
 };
 
+World.prototype.bite = function () {
+    this.pushMessage("The duck bites!");
+};
+
 World.prototype.processDuckTurn = function () {
     if (Math.random() <= 0.2) {
         this.quack();
     }
 
-    // waddle towards the player
     var playerVec = this.duckPos.vectorTo(this.playerPos);
-    var playerDir = direction4(playerVec.angle());
+    var playerDist = playerVec.length();
 
+    // attack nearby player
+    if (playerDist <= 1.1) {
+        this.bite();
+        return;
+    }
+
+    // otherwise, waddle towards them
+    var playerDir = direction4(playerVec.angle());
     this.moveDuck(playerDir);
     this.pushMessage("The duck waddles in your direction.");
 };
