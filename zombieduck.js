@@ -331,6 +331,12 @@ World.prototype.doAction = function (action) {
         case "stop":
             this.pushMessage("You wait for a while.");
             return true;
+        case "quack":
+            this.pushMessage([
+                "Becoming one with your inner duck, you do your best impression of your adversary.",
+                "The duck looks rather puzzled by this turn of events, but is otherwise unfazed."
+            ].join(" "));
+            return false;
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
