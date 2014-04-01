@@ -202,7 +202,9 @@ World.prototype.moveDuck = function (direction) {
 };
 
 World.prototype.quack = function () {
-    this.pushMessage("Quack.");
+    var msgs = ["Quack.", "Wack.", "Waack.", "Quack?", "Quackwack."];
+    var msg = msgs[Math.floor(Math.random() * msgs.length)];
+    this.pushMessage(msg);
 };
 
 World.prototype.bite = function () {
