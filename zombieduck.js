@@ -37,14 +37,29 @@ Vector.prototype.offsetDirection = function (direction) {
         case "north":
             this.y += 1;
             break;
+        case "north-east":
+            this.x += 1;
+            this.y += 1;
+            break;
         case "east":
             this.x += 1;
+            break;
+        case "south-east":
+            this.x += 1;
+            this.y -= 1;
             break;
         case "south":
             this.y -= 1;
             break;
+        case "south-west":
+            this.y -= 1;
+            this.x -= 1;
         case "west":
             this.x -= 1;
+            break;
+        case "north-west":
+            this.x -= 1;
+            this.y += 1;
             break;
         default:
             throw "Don't know direction: " + direction;
@@ -266,21 +281,37 @@ function convertToDirection(input) {
         case "north":
         case "n":
             return "north";
+        case "north-east":
+        case "north east":
+        case "ne":
+            return "north-east";
         case "east":
         case "e":
         case "right":
         case "r":
             return "east";
+        case "south-east":
+        case "south east":
+        case "se":
+            return "south-east";
         case "south":
         case "s":
         case "down":
         case "d":
             return "south";
+        case "south-west":
+        case "south west":
+        case "se":
+            return "south-west";
         case "west":
         case "w":
         case "left":
         case "l":
             return "west";
+        case "north-west":
+        case "north west":
+        case "nw":
+            return "north-west";
         default:
             return null;
     }
