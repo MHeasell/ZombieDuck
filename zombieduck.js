@@ -83,6 +83,7 @@ function direction4(angle) {
 
 function World() {
     this.playerPos = new Vector(5, 5);
+    this.playerHealth = 3;
     this.duckPos = new Vector(10, 10);
     this.messages = [];
     this.gameOver = false;
@@ -209,7 +210,28 @@ World.prototype.quack = function () {
 };
 
 World.prototype.bite = function () {
-    this.pushMessage("The duck bites!");
+    if (this.playerHealth === 3) {
+        this.pushMessage([
+            "The duck bites, taking a surprisingly large chunk out of your leg.",
+            "It is quite a gruesome sight."
+            ].join(" "));
+        --this.playerHealth;
+    }
+    else if (this.playerHealth === 2) {
+        this.pushMessage([
+            "The duck snaps at your remaining healthy leg, but gets only a nibble.",
+        ].join(" "));
+        this.playerHealth--;
+    }
+    else if (this.playerHealth === 1) {
+        this.pushMessage([
+            "The duck clamps its bill around your leg and retrieves a sizable portion.",
+            "With both legs now crippled, you collapse into a crumpled heap.",
+            "The duck quickly finishes you off and feasts on your flesh."
+        ].join(" "));
+        --this.playerHealth;
+        this.loseGame();
+    }
 };
 
 World.prototype.processDuckTurn = function () {
@@ -353,6 +375,11 @@ World.prototype.winGame = function () {
     this.gameOver = true;
 };
 
+World.prototype.loseGame = function () {
+    this.pushMessage("GAME OVER");
+    this.gameOver = true;
+};
+
 World.prototype.doKickAction = function (target) {
     switch (target) {
         case "duck":
@@ -464,6 +491,10 @@ function GameCtrl ($scope) {
         if (worldChanged) {
             model.processDuckTurn();
             pumpMessages();
+
+            if (model.gameOver) {
+                return;
+            }
 
             var status = model.duckStatus();
             $scope.history.push({type: "response", text: status});
