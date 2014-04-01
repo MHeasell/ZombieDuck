@@ -85,6 +85,7 @@ function World() {
     this.playerPos = new Vector(5, 5);
     this.duckPos = new Vector(10, 10);
     this.messages = [];
+    this.gameOver = false;
 }
 
 World.prototype.getDuckDirection = function() {
@@ -309,10 +310,21 @@ World.prototype.processMoveAction = function (args) {
 
 World.prototype.kickDuck = function () {
     this.pushMessage("You kick the duck.");
+    this.winGame();
 };
 
 World.prototype.kickWall = function () {
     this.pushMessage("You kick the wall.");
+};
+
+World.prototype.winGame = function () {
+    this.pushMessage("");
+    this.pushMessage([
+        "Against all odds you have conquered the fearsome zombie duck.",
+        "Truly you are the hero of our time and saviour of your people.",
+        "Thanks for playing... quack."
+    ].join(" "));
+    this.gameOver = true;
 };
 
 World.prototype.doKickAction = function (target) {
@@ -408,9 +420,20 @@ function GameCtrl ($scope) {
     $scope.enterCmd = function () {
         var cmd = $scope.cmdText;
         $scope.cmdText = "";
+
+        if (model.gameOver) {
+            return;
+        }
+
         $scope.history.push({type: "command", text: cmd});
 
         var worldChanged = model.doAction(cmd);
+
+        pumpMessages();
+
+        if (model.gameOver) {
+            return;
+        }
 
         if (worldChanged) {
             model.processDuckTurn();
