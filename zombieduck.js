@@ -340,7 +340,7 @@ World.prototype.kickDuck = function () {
 };
 
 World.prototype.kickWall = function () {
-    this.pushMessage("You kick the wall.");
+    this.pushMessage("You consider kicking the wall, but think better of it, as they are quite a bit sturdier than you are.");
 };
 
 World.prototype.winGame = function () {
