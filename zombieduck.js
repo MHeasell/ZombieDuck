@@ -308,7 +308,7 @@ World.prototype.processMoveAction = function (args) {
 };
 
 World.prototype.doAction = function (action) {
-    var tokens = action.split(" ");
+    var tokens = action.toLowerCase().split(" ");
     tokens = tokens.filter(function(elem) {
         return elem.length > 0;
     });
