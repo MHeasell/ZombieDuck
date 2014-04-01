@@ -309,8 +309,34 @@ World.prototype.processMoveAction = function (args) {
 };
 
 World.prototype.kickDuck = function () {
-    this.pushMessage("You kick the duck.");
-    this.winGame();
+    var duckDistance = this.getDuckDistance();
+
+    if (duckDistance > 20) {
+        this.pushMessage([
+            "You flail your legs menacingly, but the duck, being a considerable distance away, is unaffected.",
+            "It is not particularly threatened by your display."
+        ].join(" "));
+    }
+    if (duckDistance > 10) {
+        this.pushMessage([
+            "You flail your legs menacingly, but the duck, being safely out of range, is unaffected.",
+        ].join(" "));
+    }
+    if (duckDistance > 2) {
+        this.pushMessage([
+            "You take a determined swing at the duck with your right leg",
+            "but fail unspectacularly, as the duck is a bit too far from your reach.",
+        ].join(" "));
+    }
+    else {
+        this.pushMessage([
+            "You deliver a good hard boot directly to the duck's belly.",
+            "You score a direct hit, launching the duck a considerable distance into the air.",
+            "It sails over the wall and into the distance, making a quiet, yet satisfying thud,",
+            "followed by a rather confused solitary quack."
+        ].join(" "));
+        this.winGame();
+    }
 };
 
 World.prototype.kickWall = function () {
