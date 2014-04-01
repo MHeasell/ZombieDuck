@@ -434,6 +434,32 @@ World.prototype.processKickAction = function (args) {
     return this.doKickAction(args.join(" "));
 };
 
+World.prototype.processKillAction = function (args) {
+    if (args.length < 1) {
+        this.pushMessage("That seems quite unfriendly.");
+        return false;
+    }
+
+    var target = args.join(" ");
+    switch (target) {
+        case "duck":
+            this.pushMessage("That would be a bit too easy, don't you think?");
+            return false;
+        case "self":
+        case "myself":
+        case "my self":
+        case "me":
+        case "yourself":
+        case "your self":
+        case "you":
+            this.pushMessage("I'm sure that if you wait patiently enough the duck will take care of that for you.");
+            return false;
+        default:
+            this.pushMessage("That seems quite unfriendly.");
+            return false;
+    }
+};
+
 World.prototype.doAction = function (action) {
     var tokens = action.toLowerCase().split(" ");
     tokens = tokens.filter(function(elem) {
@@ -474,6 +500,8 @@ World.prototype.doAction = function (action) {
                 "The duck waves back."
                 ].join(" "));
             return false;
+        case "kill":
+            return this.processKillAction(tokens.slice(1));
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
