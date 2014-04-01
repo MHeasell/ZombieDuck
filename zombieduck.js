@@ -333,7 +333,7 @@ World.prototype.kickDuck = function () {
             "You deliver a good hard boot directly to the duck's belly.",
             "You score a direct hit, launching the duck a considerable distance into the air.",
             "It sails over the wall and into the distance, making a quiet, yet satisfying thud,",
-            "followed by a rather confused solitary quack."
+            "followed by a confused solitary quack."
         ].join(" "));
         this.winGame();
     }
