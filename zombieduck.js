@@ -307,6 +307,37 @@ World.prototype.processMoveAction = function (args) {
     return false;
 };
 
+World.prototype.kickDuck = function () {
+    this.pushMessage("You kick the duck.");
+};
+
+World.prototype.kickWall = function () {
+    this.pushMessage("You kick the wall.");
+};
+
+World.prototype.doKickAction = function (target) {
+    switch (target) {
+        case "duck":
+            this.kickDuck();
+            return true;
+        case "wall":
+            this.kickWall();
+            return true;
+        default:
+            this.pushMessage("Can't find a " + target + "to kick.");
+            return false;
+    }
+};
+
+World.prototype.processKickAction = function (args) {
+    if (args.length < 1) {
+        this.pushMessage("Kick what?");
+        return false;
+    }
+
+    return this.doKickAction(args.join(" "));
+};
+
 World.prototype.doAction = function (action) {
     var tokens = action.toLowerCase().split(" ");
     tokens = tokens.filter(function(elem) {
@@ -339,6 +370,8 @@ World.prototype.doAction = function (action) {
                 "The duck looks rather puzzled by this turn of events, but is otherwise unfazed."
             ].join(" "));
             return false;
+        case "kick":
+            return this.processKickAction(tokens.slice(1));
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
