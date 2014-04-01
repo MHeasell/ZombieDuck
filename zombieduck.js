@@ -468,6 +468,12 @@ World.prototype.doAction = function (action) {
             return false;
         case "kick":
             return this.processKickAction(tokens.slice(1));
+        case "wave":
+            this.pushMessage([
+                "You wave at the duck.",
+                "The duck waves back."
+                ].join(" "));
+            return false;
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
