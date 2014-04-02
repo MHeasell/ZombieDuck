@@ -102,6 +102,7 @@ function World() {
     this.duckPos = new Vector(10, 10);
     this.messages = [];
     this.gameOver = false;
+    this.playerCursed = false;
 }
 
 World.prototype.getDuckDirection = function() {
@@ -270,6 +271,14 @@ World.prototype.processDuckTurn = function () {
 };
 
 World.prototype.doMoveAction = function (direction) {
+    if (this.playerCursed) {
+        this.pushMessage([
+            "You attempt to move " + direction + ",",
+            "but you mysteriously GOTO your previous location."
+            ].join(" "));
+        return;
+    }
+
     this.move(direction);
     this.pushMessage("You move " + direction + ".");
 };
@@ -460,7 +469,54 @@ World.prototype.processKillAction = function (args) {
     }
 };
 
+World.prototype.processGotoAction = function (args) {
+    var target = args.join(" ");
+
+    switch (target) {
+        case "outside":
+        case "wall":
+        case "walls":
+            this.pushMessage([
+                "You vanish from your current location, moving at great speed.",
+                "Unfortunately, you go slightly too far, emerging in the depths of space.",
+                "You suffocate quite quickly."
+                ].join(" "));
+            this.loseGame();
+            return true;
+        case "duck":
+            this.pushMessage([
+                "The duck is angered by your attempted wizardry.",
+                "Feeding on your dark magic, it quickly develops laser vision",
+                "and lasers you to the ground.",
+                "Once you are sufficiently dead, the duck continues to laser your corpse",
+                "until you have been reduced to ashes."
+                ].join(" "));
+            this.loseGame();
+            return true;
+        case "":
+        default:
+            if (!this.playerCursed) {
+                this.pushMessage([
+                    "You attempt to cast GOTO,",
+                    "an ancient and mysterious spell taught to you by a secretive master wizard.",
+                    "Unfortunately, you don't quite get the incantation right",
+                    "and become rooted to the spot, tragically unable to GOTO anywhere."
+                ].join(" "));
+                this.playerCursed = true;
+                return true;
+            }
+            else {
+                this.pushMessage([
+                    "You attempt to GOTO once more, but quickly find that your head is now inside your body."
+                ].join(" "));
+                this.loseGame();
+                return true;
+            }
+    }
+};
+
 World.prototype.doAction = function (action) {
+
     var tokens = action.toLowerCase().split(" ");
     tokens = tokens.filter(function(elem) {
         return elem.length > 0;
@@ -477,6 +533,11 @@ World.prototype.doAction = function (action) {
         case "desc":
             return this.processLookAction(tokens.slice(1));
         case "go":
+            if (tokens.length > 1 && tokens[1] === "to") {
+                this.pushMessage("Did you mean \"goto\"?");
+                return false;
+            }
+            return this.processMoveAction(tokens.slice(1));
         case "move":
         case "walk":
         case "run":
@@ -502,6 +563,8 @@ World.prototype.doAction = function (action) {
             return false;
         case "kill":
             return this.processKillAction(tokens.slice(1));
+        case "goto":
+            return this.processGotoAction(tokens.slice(1));
         default:
             var dir = convertToDirection(tokens[0]);
             if (dir) {
