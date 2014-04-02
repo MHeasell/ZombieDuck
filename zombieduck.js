@@ -169,7 +169,7 @@ World.prototype.describeDuck = function () {
         return [
             "The duck looks to be quite ill.",
             "it has an off-color look and is missing pieces of itself.",
-            "You feel a sense of impending dread",
+            "You feel a strong sense of dread",
             "-- it would definitely be a bad thing if it got any closer."
         ].join(" ");
     }
