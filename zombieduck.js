@@ -168,7 +168,7 @@ World.prototype.describeDuck = function () {
     if (dist > 5) {
         return [
             "The duck looks to be quite ill.",
-            "it has an off-color look and is missing pieces of itself.",
+            "it has an off-color appearance and is missing pieces of itself.",
             "You feel a strong sense of dread",
             "-- it would definitely be a bad thing if it got any closer."
         ].join(" ");
