@@ -410,13 +410,14 @@ World.prototype.winGame = function () {
     this.pushMessage([
         "Against all odds you have conquered the fearsome zombie duck.",
         "Truly you are the hero of our time and saviour of your people.",
-        "Thanks for playing... quack."
+        "Thanks for playing!"
     ].join(" "));
+    this.pushMessage("Enter \"restart\" to begin a new adventure.");
     this.gameOver = true;
 };
 
 World.prototype.loseGame = function () {
-    this.pushMessage("GAME OVER");
+    this.pushMessage("GAME OVER -- Enter \"restart\" to try again.");
     this.gameOver = true;
 };
 
@@ -601,6 +602,16 @@ function GameCtrl ($scope) {
     $scope.enterCmd = function () {
         var cmd = $scope.cmdText;
         $scope.cmdText = "";
+
+        switch (cmd.trim().toLowerCase()) {
+            case "reset":
+            case "restart":
+            case "reload":
+            case "retry":
+                model = new World();
+                this.history = [{type: "response", text: model.describe()}];
+                return;
+        }
 
         if (model.gameOver) {
             return;
